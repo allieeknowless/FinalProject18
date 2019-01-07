@@ -57,6 +57,15 @@ def welcome_screen():
     time.sleep(4)
     pygame.quit()
 
+def instructions():
+    '''instructions for the game'''
+    instructions_screen = my_font2.render("insert instructions", True, (255, 255, 255))
+    screen.blit(instructions_screen, (10, 10))
+    pygame.display.flip()
+
+    time.sleep(4)
+    pygame.quit()
+
 def grid():
     '''creates a numbered grid of 16 rectangles''' 
     while not done:
@@ -99,4 +108,4 @@ def grid():
         time.sleep(4)
         pygame.quit()
 
-grid()
+instructions()
