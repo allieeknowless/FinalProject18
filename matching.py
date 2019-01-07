@@ -1,0 +1,25 @@
+import pygame
+import time
+pygame.init()
+screen = pygame.display.set_mode((418, 418))
+done = False
+while not done:
+    pygame.draw.rect(screen, (255,255,255), [5, 5, 100, 100], 1)
+    pygame.draw.rect(screen, (255,255,255), [108, 5, 100, 100], 1)
+    pygame.draw.rect(screen, (255,255,255), [5, 108, 100, 100], 1)
+    pygame.draw.rect(screen, (255,255,255), [108, 108, 100, 100], 1)
+    pygame.draw.rect(screen, (255,255,255), [211, 108, 100, 100], 1)
+    pygame.draw.rect(screen, (255,255,255), [108, 211, 100, 100], 1)
+    pygame.draw.rect(screen, (255,255,255), [211, 211, 100, 100], 1)
+    pygame.draw.rect(screen, (255,255,255), [5, 211, 100, 100], 1)
+    pygame.draw.rect(screen, (255,255,255), [211, 5, 100, 100], 1)
+    pygame.draw.rect(screen, (255,255,255), [314, 5, 100, 100], 1)
+    pygame.draw.rect(screen, (255,255,255), [314, 314, 100, 100], 1)
+    pygame.draw.rect(screen, (255,255,255), [314, 211, 100, 100], 1)
+    pygame.draw.rect(screen, (255,255,255), [211, 314, 100, 100], 1)
+    pygame.draw.rect(screen, (255,255,255), [108, 314, 100, 100], 1)
+    pygame.draw.rect(screen, (255,255,255), [314, 108, 100, 100], 1)
+    pygame.draw.rect(screen, (255,255,255), [5, 314, 100, 100], 1)
+    pygame.display.flip() 
+    time.sleep(6)
+    pygame.quit()
