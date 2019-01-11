@@ -1,12 +1,33 @@
 import pygame
 import time
+import random
+from random import shuffle
+
 pygame.init()
 screen = pygame.display.set_mode((418, 418))
 done = False
+
 my_font = pygame.font.SysFont("Arial", 48)
 my_font2 = pygame.font.SysFont("Arial", 28)
 
-#BOX1 = pygame.draw.rect(screen, (255,255,255), [5, 5, 100, 100], 1)
+color1 = (255, 0, 0)
+color2 = (255, 0, 0)
+color3 = (0, 0, 255)
+color4 = (0, 0, 255)
+color5 = (0, 255, 0)
+color6 = (0, 255, 0)
+color7 = (255, 255, 0)
+color8 = (255, 255, 0)
+color9 = (255, 100, 180)
+color10 = (255,100,180)
+color11 = (115, 0, 0)
+color12 = (115, 0, 0)
+color13 = (210, 0, 255)
+color14 = (190, 0, 255)
+color15 = (190,200,200)
+color16 = (200,200,200)
+color_choices = [(color1), (color2), (color3), (color4), (color5), (color6), (color7), (color8), (color9), (color10), (color11), (color12), (color13), (color14), (color15), (color16)]
+
 BOX1 = [5, 5, 100, 100]
 BOX2 = [108, 5, 100, 100]
 BOX3 = [211, 5, 100, 100]
@@ -40,6 +61,8 @@ text13 = my_font.render("13", True, (255, 255, 255))
 text14 = my_font.render("14", True, (255, 255, 255))
 text15 = my_font.render("15", True, (255, 255, 255))
 text16 = my_font.render("16", True, (255, 255, 255))
+
+
 
 def welcome_screen():
     ''' screen to welcome users'''
@@ -108,4 +131,46 @@ def grid():
         time.sleep(4)
         pygame.quit()
 
-instructions()
+def grid_hidden():
+    '''flips the card when a user chooses it'''
+    random.shuffle(color_choices)
+    pygame.draw.rect(screen, color_choices[0], BOX1)
+    pygame.draw.rect(screen, color_choices[1], BOX2)
+    pygame.draw.rect(screen, color_choices[2], BOX3)
+    pygame.draw.rect(screen, color_choices[3], BOX4)
+    pygame.draw.rect(screen, color_choices[4], BOX5)
+    pygame.draw.rect(screen, color_choices[5], BOX6)
+    pygame.draw.rect(screen, color_choices[6], BOX7)
+    pygame.draw.rect(screen, color_choices[7], BOX8)
+    pygame.draw.rect(screen, color_choices[8], BOX9)
+    pygame.draw.rect(screen, color_choices[9], BOX10)
+    pygame.draw.rect(screen, color_choices[10], BOX11)
+    pygame.draw.rect(screen, color_choices[11], BOX12)
+    pygame.draw.rect(screen, color_choices[12], BOX13)
+    pygame.draw.rect(screen, color_choices[13], BOX14)
+    pygame.draw.rect(screen, color_choices[14], BOX15)
+    pygame.draw.rect(screen, color_choices[15], BOX16)
+    pygame.display.flip()
+      
+    screen.blit(text1, (45, 30))
+    screen.blit(text2, (148, 30))
+    screen.blit(text3, (251, 30))
+    screen.blit(text4, (354, 30))
+    screen.blit(text5, (45, 133))
+    screen.blit(text6, (148, 133))
+    screen.blit(text7, (251, 133))
+    screen.blit(text8, (354, 133))
+    screen.blit(text9, (45, 236))
+    screen.blit(text10, (138, 236))
+    screen.blit(text11, (241, 236))
+    screen.blit(text12, (344, 236))
+    screen.blit(text13, (35, 339))
+    screen.blit(text14, (138, 339))
+    screen.blit(text15, (241, 339))
+    screen.blit(text16, (344, 339))
+    pygame.display.flip() 
+
+    time.sleep(4)
+    pygame.quit()
+
+grid_hidden()
