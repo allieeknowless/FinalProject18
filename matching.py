@@ -1,15 +1,16 @@
-import pygame
+import pygame 
 import time
 import random
 from random import shuffle
 
 pygame.init()
-screen = pygame.display.set_mode((418, 418))
-done = False
+screen = pygame.display.set_mode((418, 418)) #sets screen size
+done = False ##used for loop
 
-my_font = pygame.font.SysFont("Arial", 48)
+my_font = pygame.font.SysFont("Arial", 48) 
 my_font2 = pygame.font.SysFont("Arial", 28)
 
+#List of colors to be used for matching. 2 of each color to make pairs
 color1 = (255, 0, 0)
 color2 = (255, 0, 0)
 color3 = (0, 0, 255)
@@ -133,7 +134,7 @@ def grid():
 
 def grid_hidden():
     '''flips the card when a user chooses it'''
-    random.shuffle(color_choices)
+    random.shuffle(color_choices) ##each square gets a different color every time
     pygame.draw.rect(screen, color_choices[0], BOX1)
     pygame.draw.rect(screen, color_choices[1], BOX2)
     pygame.draw.rect(screen, color_choices[2], BOX3)
