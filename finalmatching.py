@@ -9,6 +9,7 @@ y = 0
 pygame.init()
 screen = pygame.display.set_mode((418, 418))
 running = True
+turns = 0
 
 my_font = pygame.font.SysFont("Arial", 48)
 my_font2 = pygame.font.SysFont("Arial", 28)
@@ -66,7 +67,10 @@ text14 = my_font.render("14", True, (255, 255, 255))
 text15 = my_font.render("15", True, (255, 255, 255))
 text16 = my_font.render("16", True, (255, 255, 255))
 
-
+even = [2,4,6,8,10,12,14,16,18,20,22,24,26,28,30]
+def check_match():
+        if turns in even:
+                print ("even")
 
 def welcome_screen():
     ''' screen to welcome users'''
@@ -174,59 +178,91 @@ def grid_hidden():
     pygame.quit()
 
 while running:
-    grid()
-    for e in pygame.event.get():
-        if e.type == pygame.QUIT:
-            running = False
-        if e.type == pygame.MOUSEBUTTONDOWN:
-           pos = pygame.mouse.get_pos()
-           button1 = pygame.draw.rect(screen, (255,255,255), BOX1, 1)
-           button2 = pygame.draw.rect(screen, (255,255,255), BOX2, 1)
-           button3 = pygame.draw.rect(screen, (255,255,255), BOX3, 1)
-           button4 = pygame.draw.rect(screen, (255,255,255), BOX4, 1)
-           button5 = pygame.draw.rect(screen, (255,255,255), BOX5, 1)
-           button6 = pygame.draw.rect(screen, (255,255,255), BOX6, 1)
-           button7 = pygame.draw.rect(screen, (255,255,255), BOX7, 1)
-           button8 = pygame.draw.rect(screen, (255,255,255), BOX8, 1)
-           button9 = pygame.draw.rect(screen, (255,255,255), BOX9, 1)
-           button10 = pygame.draw.rect(screen, (255,255,255), BOX10, 1)
-           button11 = pygame.draw.rect(screen, (255,255,255), BOX11, 1)
-           button12 = pygame.draw.rect(screen, (255,255,255), BOX12, 1)
-           button13 = pygame.draw.rect(screen, (255,255,255), BOX13, 1)
-           button14 = pygame.draw.rect(screen, (255,255,255), BOX14, 1)
-           button15 = pygame.draw.rect(screen, (255,255,255), BOX15, 1)
-           button16 = pygame.draw.rect(screen, (255,255,255), BOX16, 1)
-           if button1.collidepoint(pos):
-                pygame.draw.rect(screen, color_choices[0], BOX1)
-           if button2.collidepoint(pos):
-                pygame.draw.rect(screen, color_choices[1], BOX2)
-           if button3.collidepoint(pos):
-                pygame.draw.rect(screen, color_choices[2], BOX3)
-           if button4.collidepoint(pos):
-                pygame.draw.rect(screen, color_choices[3], BOX4)
-           if button5.collidepoint(pos):
-                pygame.draw.rect(screen, color_choices[4], BOX5)
-           if button6.collidepoint(pos):
-                pygame.draw.rect(screen, color_choices[5], BOX6)
-           if button7.collidepoint(pos):
-                pygame.draw.rect(screen, color_choices[6], BOX7)
-           if button8.collidepoint(pos):
-                pygame.draw.rect(screen, color_choices[7], BOX8)
-           if button9.collidepoint(pos):
-                pygame.draw.rect(screen, color_choices[8], BOX9)
-           if button10.collidepoint(pos):
-                pygame.draw.rect(screen, color_choices[9], BOX10)
-           if button11.collidepoint(pos):
-                pygame.draw.rect(screen, color_choices[10], BOX11)
-           if button12.collidepoint(pos):
-                pygame.draw.rect(screen, color_choices[11], BOX12)
-           if button13.collidepoint(pos):
-                pygame.draw.rect(screen, color_choices[12], BOX13)
-           if button14.collidepoint(pos):
-                pygame.draw.rect(screen, color_choices[13], BOX14)
-           if button15.collidepoint(pos):
-                pygame.draw.rect(screen, color_choices[14], BOX15)
-           if button16.collidepoint(pos):
-                pygame.draw.rect(screen, color_choices[15], BOX16)
+        grid()
+        for e in pygame.event.get():
+            if e.type == pygame.QUIT:
+                running = False
+            if e.type == pygame.MOUSEBUTTONDOWN:
+                pos = pygame.mouse.get_pos()
+                button1 = pygame.draw.rect(screen, (255,255,255), BOX1, 1)
+                button2 = pygame.draw.rect(screen, (255,255,255), BOX2, 1)
+                button3 = pygame.draw.rect(screen, (255,255,255), BOX3, 1)
+                button4 = pygame.draw.rect(screen, (255,255,255), BOX4, 1)
+                button5 = pygame.draw.rect(screen, (255,255,255), BOX5, 1)
+                button6 = pygame.draw.rect(screen, (255,255,255), BOX6, 1)
+                button7 = pygame.draw.rect(screen, (255,255,255), BOX7, 1)
+                button8 = pygame.draw.rect(screen, (255,255,255), BOX8, 1)
+                button9 = pygame.draw.rect(screen, (255,255,255), BOX9, 1)
+                button10 = pygame.draw.rect(screen, (255,255,255), BOX10, 1)
+                button11 = pygame.draw.rect(screen, (255,255,255), BOX11, 1)
+                button12 = pygame.draw.rect(screen, (255,255,255), BOX12, 1)
+                button13 = pygame.draw.rect(screen, (255,255,255), BOX13, 1)
+                button14 = pygame.draw.rect(screen, (255,255,255), BOX14, 1)
+                button15 = pygame.draw.rect(screen, (255,255,255), BOX15, 1)
+                button16 = pygame.draw.rect(screen, (255,255,255), BOX16, 1)
+                if button1.collidepoint(pos):
+                        pygame.draw.rect(screen, color_choices[0], BOX1)
+                        turns +=1
+                        check_match()
+                if button2.collidepoint(pos):
+                        pygame.draw.rect(screen, color_choices[1], BOX2)
+                        turns +=1
+                        check_match()
+                if button3.collidepoint(pos):
+                        pygame.draw.rect(screen, color_choices[2], BOX3)
+                        turns +=1
+                        check_match()
+                if button4.collidepoint(pos):
+                        pygame.draw.rect(screen, color_choices[3], BOX4)
+                        turns +=1
+                        check_match()
+                if button5.collidepoint(pos):
+                        pygame.draw.rect(screen, color_choices[4], BOX5)
+                        turns +=1
+                        check_match()
+                if button6.collidepoint(pos):
+                        pygame.draw.rect(screen, color_choices[5], BOX6)
+                        turns +=1
+                        check_match()
+                if button7.collidepoint(pos):
+                        pygame.draw.rect(screen, color_choices[6], BOX7)
+                        turns +=1
+                        check_match()
+                if button8.collidepoint(pos):
+                        pygame.draw.rect(screen, color_choices[7], BOX8)
+                        turns +=1
+                        check_match()
+                if button9.collidepoint(pos):
+                        pygame.draw.rect(screen, color_choices[8], BOX9)
+                        turns +=1
+                        check_match()
+                if button10.collidepoint(pos):
+                        pygame.draw.rect(screen, color_choices[9], BOX10)
+                        turns +=1
+                        check_match()
+                if button11.collidepoint(pos):
+                        pygame.draw.rect(screen, color_choices[10], BOX11)
+                        turns +=1
+                        check_match()
+                if button12.collidepoint(pos):
+                        pygame.draw.rect(screen, color_choices[11], BOX12)
+                        turns +=1
+                        check_match()
+                if button13.collidepoint(pos):
+                        pygame.draw.rect(screen, color_choices[12], BOX13)
+                        turns += 1
+                        check_match()
+                if button14.collidepoint(pos):
+                        pygame.draw.rect(screen, color_choices[13], BOX14)
+                        turns +=1
+                        check_match()
+                if button15.collidepoint(pos):
+                        pygame.draw.rect(screen, color_choices[14], BOX15)
+                        turns +=1
+                        check_match()
+                if button16.collidepoint(pos):
+                        pygame.draw.rect(screen, color_choices[15], BOX16)
+                        turns +=1
+                        check_match()
+        pygame.display.flip()
 
-    pygame.display.flip()
