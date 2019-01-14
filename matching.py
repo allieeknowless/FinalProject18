@@ -3,9 +3,12 @@ import time
 import random
 from random import shuffle
 
+x = 0
+y = 0
+
 pygame.init()
 screen = pygame.display.set_mode((418, 418))
-done = False
+running = True
 
 my_font = pygame.font.SysFont("Arial", 48)
 my_font2 = pygame.font.SysFont("Arial", 28)
@@ -90,8 +93,7 @@ def instructions():
     pygame.quit()
 
 def grid():
-    '''creates a numbered grid of 16 rectangles''' 
-    while not done:
+        '''creates a numbered grid of 16 rectangles''' 
         pygame.draw.rect(screen, (255,255,255), BOX1, 1)
         pygame.draw.rect(screen, (255,255,255), BOX2, 1)
         pygame.draw.rect(screen, (255,255,255), BOX3, 1)
@@ -127,9 +129,6 @@ def grid():
         screen.blit(text15, (241, 339))
         screen.blit(text16, (344, 339))
         pygame.display.flip() 
-
-        time.sleep(4)
-        pygame.quit()
 
 def grid_hidden():
     '''flips the card when a user chooses it'''
@@ -173,4 +172,14 @@ def grid_hidden():
     time.sleep(4)
     pygame.quit()
 
-grid_hidden()
+
+while running:
+    grid()
+    for e in pygame.event.get():
+        if e.type == pygame.QUIT:
+            running = False
+        if e.type == pygame.MOUSEBUTTONDOWN:
+            pygame.draw.rect(screen, color_choices[0], BOX1)
+
+    pygame.display.flip()
+
