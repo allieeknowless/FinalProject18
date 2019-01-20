@@ -3,22 +3,18 @@ import time ##imports time
 import random  ##imports random
 from random import shuffle ##Used to randomly shuffle the board each round
 
-update1 = 0 
-update2 = 0
 
-choice1 = 1
-choice2 = 2
+choice1 = 1 #will change during loop
+choice2 = 2 #will change during loop
 
 pygame.init() #initializes pygame's submodules
 screen = pygame.display.set_mode((418, 490)) ##sets the screen size
 running = True ## to control while loop
 
-turns = 40 ##keeps track of how many turns the player has taken
-matches = 0 ##keeps track of how many matches the player made
 
 my_font = pygame.font.SysFont("Arial", 48) #set the font for the title
 my_font2 = pygame.font.SysFont("Arial", 28) #sets font for the grid labels
-my_font3 = pygame.font.SysFont("Arial", 60) #sets a different size font
+my_font3 = pygame.font.SysFont("Arial", 60) #sets a different sized font
 
 #there are 16 boxes, so there are 8 colors and 2 of each
 color1 = (255, 0, 0)
@@ -37,7 +33,8 @@ color13 = (190, 0, 255)
 color14 = (190, 0, 255)
 color15 = (200,200,200)
 color16 = (200,200,200)
-color_choices = [(color1), (color2), (color3), (color4), (color5), (color6), (color7), (color8), (color9), (color10), (color11), (color12), (color13), (color14), (color15), (color16)]
+color_choices = [(color1), (color2), (color3), (color4), (color5), (color6), (color7), (color8), (color9), (color10), (color11), (color12),
+ (color13), (color14), (color15), (color16)] #list of all colors to choose from
 random.shuffle(color_choices) ##randomly shuffles the board each round
 
 ##dimensions of all 16 boxes
@@ -58,7 +55,9 @@ BOX14 = [108, 314, 100, 100]
 BOX15 = [211, 314, 100, 100]
 BOX16 = [314, 314, 100, 100]
 
-#labels for all 16 boxes
+
+
+#numbered labels for all 16 boxes
 text1 = my_font.render("1", True, (255, 255, 255))
 text2 = my_font.render("2", True, (255, 255, 255))
 text3 = my_font.render("3", True, (255, 255, 255))
@@ -75,64 +74,80 @@ text13 = my_font.render("13", True, (255, 255, 255))
 text14 = my_font.render("14", True, (255, 255, 255))
 text15 = my_font.render("15", True, (255, 255, 255))
 text16 = my_font.render("16", True, (255, 255, 255))
+##labels for other buttons/messages
 text_restart = my_font2.render("restart", True, (255, 255, 255))
 text_lose = my_font3.render("YOU LOSE :(", True, (20, 118, 19))
 text_win= my_font3.render("YOU WIN!!!!!", True, (200, 118, 255))
 
 ##keeps track of when it is an even round 
-even = [0,2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40,42,44,46,48,50,52,54,56,58,60,62,64,66,68,70,72,74,76,78,80]
+even = [0,2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40]
+
+turns = 40 ##ypu get a total of 20 guesses, which is 40 clicks
+
+class round:
+        """keeps track of matches"""
+        def __init__(self,matches):
+                self.matches = matches
+
+        def increase_matches(self):
+                self.matches += 1 ##matches increases by 1
+
+round1 = round(0) ##round starts with 0 matches
 
 def update():
-        pygame.display.flip()
-        grid()
-        pygame.time.wait(500)
-        pygame.draw.rect(screen, (0,0,0), box_choice1)
-        pygame.draw.rect(screen, (0,0,0), box_choice2)
+        """updates the screen after a wrong choice, so the colors light up then disappear"""
+        pygame.display.flip() ##update the display
+        grid() 
+        pygame.time.wait(500) ###keep the colors visible for 500 milliseconds
+        pygame.draw.rect(screen, (0,0,0), box_choice1) ##then make the colors disappear
+        pygame.draw.rect(screen, (0,0,0), box_choice2) ##then make the colors disappear
         
 
 def check_match():
         '''checks to see if a match has been made'''
-        #time.sleep(5)
-        global matches
         global turns 
-        if turns <= 0:
-                if choice1 == choice2: ##if the two colors match
-                        matches += 1
-                        if matches == 8:
+        if turns <= 0: ##if there are no turns left
+                if choice1 == choice2: ## but the last choice was a match
+                        round1.increase_matches() ##increase match by 1
+                        if round1.matches == 8: ##if all matches have been made
                                 print ("WINNNER")
-                                win()
-                        else:
+                                win() ##show winning screen
+                        else:##if not all matches have been made
                                 print("LOSER")
-                                lose()      
+                                lose()    ###show losing screen  
                 else:
                         print("LOSER")
-                        lose()
+                        lose() ##show losing screen if there are no moves left, and the last move was not a match
         else:
-                if box_choice1 == box_choice2:
+                if box_choice1 == box_choice2: ##if user clicks the same button twice
                         print (f"Don't click on the same box twice, {turns} clicks left.")
                         update()
                 elif choice1 == choice2: ##if the two colors match
-                        matches += 1
-                        if matches == 8:
+                        round1.increase_matches() ##increase match by 1
+                        if round1.matches == 8: ##and if all matches have been made
                                 print ("WINNNER")
-                                win()
-                        else:
+                                win() #show winning screen
+                        else: ##not all matches have been made
                                 print(f"match, {turns} clicks left") ##keep the colors there and print 'match'
                 else:##if the two colors do not match
                                 print(f"no match, {turns} clicks left") ## print 'no'
+                                print(round1.matches)
                                 update()
 
 def lose():
-         pygame.draw.rect(screen, (255,255,255), (65, 160, 300, 100))
-         screen.blit(text_lose, (65, 170))
+        """losing screen"""
+        pygame.draw.rect(screen, (255,255,255), (65, 160, 300, 100))
+        screen.blit(text_lose, (65, 170))
 
 def win():
+        """winning scree"""
         pygame.draw.rect(screen, (255,255,255), (65, 160, 300, 100))
         screen.blit(text_win, (70, 170))
 
 
 def grid():
         '''creates a numbered grid of 16 rectangles''' 
+        ###draw sixteen white rectangles of the same size in specified locations
         pygame.draw.rect(screen, (255,255,255), BOX1, 1)
         pygame.draw.rect(screen, (255,255,255), BOX2, 1)
         pygame.draw.rect(screen, (255,255,255), BOX3, 1)
@@ -149,10 +164,11 @@ def grid():
         pygame.draw.rect(screen, (255,255,255), BOX14, 1)
         pygame.draw.rect(screen, (255,255,255), BOX15, 1)
         pygame.draw.rect(screen, (255,255,255), BOX16, 1)
+        ##draw a rectangle for restart button
         pygame.draw.rect(screen, (255,255,255), (140,425, 150,50), 1)
-        pygame.display.flip() 
+        pygame.display.flip() ##udate the display
 
-
+        #displays numbers on each box
         screen.blit(text1, (45, 30))
         screen.blit(text2, (148, 30))
         screen.blit(text3, (251, 30))
@@ -169,9 +185,11 @@ def grid():
         screen.blit(text14, (138, 339))
         screen.blit(text15, (241, 339))
         screen.blit(text16, (344, 339))
+        ##says "restart" on restart button
         screen.blit(text_restart, (180, 430))
-        pygame.display.flip() 
+        pygame.display.flip() ##updates the display
 
+#simplifies all the rectangles into buttons
 button1 = pygame.draw.rect(screen, (255,255,255), BOX1, 1)
 button2 = pygame.draw.rect(screen, (255,255,255), BOX2, 1)
 button3 = pygame.draw.rect(screen, (255,255,255), BOX3, 1)
@@ -188,79 +206,65 @@ button13 = pygame.draw.rect(screen, (255,255,255), BOX13, 1)
 button14 = pygame.draw.rect(screen, (255,255,255), BOX14, 1)
 button15 = pygame.draw.rect(screen, (255,255,255), BOX15, 1)
 button16 = pygame.draw.rect(screen, (255,255,255), BOX16, 1)
+##restart button
 button_restart = pygame.draw.rect(screen, (255,255,255), (140, 425, 150, 50), 1)
 
-
-     
-
-
-
-
+##while running, this loop will repeat
 while running:
-        grid()
-        for e in pygame.event.get():
+        grid() #displays the blank grid
+        for e in pygame.event.get(): #for every event
             if e.type == pygame.QUIT:
                 running = False
-            if e.type == pygame.MOUSEBUTTONDOWN:
-                pos = pygame.mouse.get_pos()
-                if button_restart.collidepoint(pos):
+            if e.type == pygame.MOUSEBUTTONDOWN: #if the event is a click
+                pos = pygame.mouse.get_pos() ##the position is the position of the click
+                if button_restart.collidepoint(pos): ##if the position of the click was in the restart button
+                       ##reset all the variables
                         screen.fill((0,0,0))
-                        update1 = 0 
-                        update2 = 0
                         turns = 40
-                        matches = 0
+                        round1 = round(0)
                         choice1 = 1
                         choice2 = 2
+                        ##reshuffle the colors
                         random.shuffle(color_choices)
                         grid()
                         running = True
-                elif button1.collidepoint(pos):
-                        pygame.draw.rect(screen, color_choices[0], BOX1)
-                        turns -=1
-                        text_moves_number = my_font2.render(f"{turns} ", True, (255, 255, 255))
-                        if turns in even:
-                                box_choice2 = BOX1
+                elif button1.collidepoint(pos): ##if the click was in button1
+                        pygame.draw.rect(screen, color_choices[0], BOX1) ##fill the box will the hidden color
+                        turns -= 1 ##decrease turns for every click
+                        if turns in even: #if it is an even turn, check for a match
+                                box_choice2 = BOX1 ##keeps track of choice
                                 choice2 = color_choices[0]
                                 check_match()
                         else:
-                                box_choice1 = BOX1
+                                box_choice1 = BOX1  ##keeps track of choice
                                 choice1 = color_choices[0]
                                 choice2 = 0
-                elif button2.collidepoint(pos):
+                elif button2.collidepoint(pos): ##same thing for each button
                         pygame.draw.rect(screen, color_choices[1], BOX2)
-                        turns -=1
-                        text_moves_number = my_font2.render(f"{turns} ", True, (255, 255, 255))
+                        turns -= 1
                         if turns in even:
                                 box_choice2 = BOX2
                                 choice2 = color_choices[1]
                                 check_match()
-                                #pygame.draw.rect(screen, (0,0,0), box_choice1)
-                                #pygame.draw.rect(screen, (0,0,0), box_choice2)
+                
                         else:
                                 box_choice1 = BOX2
                                 choice1 = color_choices[1]
                                 choice2 = 0
-                        #continue
                 elif button3.collidepoint(pos):
                         pygame.draw.rect(screen, color_choices[2], BOX3)
-                        turns -=1
-                        text_moves_number = my_font2.render(f"{turns} ", True, (255, 255, 255))
-
+                        turns -= 1
                         if turns in even:
                                 box_choice2 = BOX3
                                 choice2 = color_choices[2]
                                 check_match()
-                                #pygame.draw.rect(screen, (0,0,0), box_choice1)
-                                #pygame.draw.rect(screen, (0,0,0), box_choice2)
                         else:
                                 box_choice1 = BOX3
                                 choice1 = color_choices[2]
                                 choice2 = 0
-                        #continue
                 elif button4.collidepoint(pos):
                         pygame.draw.rect(screen, color_choices[3], BOX4)
-                        turns -=1
-                        text_moves_number = my_font2.render(f"{turns} ", True, (255, 255, 255))
+                        turns -= 1
                         if turns in even:
                                 box_choice2 = BOX4
                                 choice2 = color_choices[3]
@@ -269,12 +273,10 @@ while running:
                                 box_choice1 = BOX4
                                 choice1 = color_choices[3]
                                 choice2 = 0
-
                         continue
                 elif button5.collidepoint(pos):
                         pygame.draw.rect(screen, color_choices[4], BOX5)
-                        turns -=1
-                        text_moves_number = my_font2.render(f"{turns} ", True, (255, 255, 255))
+                        turns -= 1
                         if turns in even:
                                 box_choice2 = BOX5
                                 choice2 = color_choices[4]
@@ -285,8 +287,7 @@ while running:
                                 choice2 = 0                   
                 elif button6.collidepoint(pos):
                         pygame.draw.rect(screen, color_choices[5], BOX6)
-                        turns -=1
-                        text_moves_number = my_font2.render(f"{turns} ", True, (255, 255, 255))
+                        turns -= 1
                         if turns in even:
                                 box_choice2 = BOX6
                                 choice2 = color_choices[5]
@@ -297,8 +298,7 @@ while running:
                                 choice2 = 0
                 elif button7.collidepoint(pos):
                         pygame.draw.rect(screen, color_choices[6], BOX7)
-                        turns -=1
-                        text_moves_number = my_font2.render(f"{turns} ", True, (255, 255, 255))
+                        turns -= 1
                         if turns in even:
                                 box_choice2 = BOX7
                                 choice2 = color_choices[6]
@@ -309,8 +309,7 @@ while running:
                                 choice2 = 0
                 elif button8.collidepoint(pos):
                         pygame.draw.rect(screen, color_choices[7], BOX8)
-                        turns -=1
-                        text_moves_number = my_font2.render(f"{turns} ", True, (255, 255, 255))
+                        turns -= 1
                         if turns in even:
                                 box_choice2 = BOX8
                                 choice2 = color_choices[7]
@@ -321,8 +320,7 @@ while running:
                                 choice2 = 0
                 elif button9.collidepoint(pos):
                         pygame.draw.rect(screen, color_choices[8], BOX9)
-                        turns -=1
-                        text_moves_number = my_font2.render(f"{turns} ", True, (255, 255, 255))
+                        turns -= 1
                         if turns in even:
                                 box_choice2 = BOX9
                                 choice2 = color_choices[8]
@@ -333,8 +331,7 @@ while running:
                                 choice2 = 0
                 elif button10.collidepoint(pos):
                         pygame.draw.rect(screen, color_choices[9], BOX10)
-                        turns -=1
-                        text_moves_number = my_font2.render(f"{turns} ", True, (255, 255, 255))
+                        turns -= 1
                         if turns in even:
                                 box_choice2 = BOX10
                                 choice2 = color_choices[9]
@@ -345,8 +342,7 @@ while running:
                                 choice2 = 0
                 elif button11.collidepoint(pos):
                         pygame.draw.rect(screen, color_choices[10], BOX11)
-                        turns -=1
-                        text_moves_number = my_font2.render(f"{turns} ", True, (255, 255, 255))
+                        turns -= 1
                         if turns in even:
                                 box_choice2 = BOX11
                                 choice2 = color_choices[10]
@@ -357,8 +353,7 @@ while running:
                                 choice2 = 0
                 elif button12.collidepoint(pos):
                         pygame.draw.rect(screen, color_choices[11], BOX12)
-                        turns -=1
-                        text_moves_number = my_font2.render(f"{turns} ", True, (255, 255, 255))
+                        turns -= 1
                         if turns in even:
                                 box_choice2 = BOX12
                                 choice2 = color_choices[11]
@@ -370,7 +365,6 @@ while running:
                 elif button13.collidepoint(pos):
                         pygame.draw.rect(screen, color_choices[12], BOX13)
                         turns -= 1
-                        text_moves_number = my_font2.render(f"{turns} ", True, (255, 255, 255))
                         if turns in even:
                                 box_choice2 = BOX13
                                 choice2 = color_choices[12]
@@ -381,8 +375,7 @@ while running:
                                 choice2 = 0
                 elif button14.collidepoint(pos):
                         pygame.draw.rect(screen, color_choices[13], BOX14)
-                        turns -=1
-                        text_moves_number = my_font2.render(f"{turns} ", True, (255, 255, 255))
+                        turns -= 1
                         if turns in even:
                                 box_choice2 = BOX14
                                 choice2 = color_choices[13]
@@ -394,7 +387,6 @@ while running:
                 elif button15.collidepoint(pos):
                         pygame.draw.rect(screen, color_choices[14], BOX15)
                         turns -= 1
-                        text_moves_number = my_font2.render(f"{turns} ", True, (255, 255, 255))
                         if turns in even:
                                 box_choice2 = BOX15
                                 choice2 = color_choices[14]
@@ -405,8 +397,7 @@ while running:
                                 choice2 = 0
                 elif button16.collidepoint(pos):
                         pygame.draw.rect(screen, color_choices[15], BOX16)
-                        turns -=1
-                        text_moves_number = my_font2.render(f"{turns} ", True, (255, 255, 255))
+                        turns -= 1
                         if turns in even:
                                 box_choice2 = BOX16
                                 choice2 = color_choices[15]
@@ -415,4 +406,4 @@ while running:
                                 box_choice1 = BOX16
                                 choice1 = color_choices[15]
                                 choice2 = 0
-        pygame.display.flip()
+        pygame.display.flip() ##display screen
