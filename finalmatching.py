@@ -18,7 +18,7 @@ matches = 0 ##keeps track of how many matches the player made
 
 my_font = pygame.font.SysFont("Arial", 48) #set the font for the title
 my_font2 = pygame.font.SysFont("Arial", 28) #sets font for the grid labels
-
+my_font3 = pygame.font.SysFont("Arial", 60) #sets font for the grid labels
 
 #there are 16 boxes, so there are 8 colors and 2 of each
 color1 = (255, 0, 0)
@@ -75,7 +75,9 @@ text13 = my_font.render("13", True, (255, 255, 255))
 text14 = my_font.render("14", True, (255, 255, 255))
 text15 = my_font.render("15", True, (255, 255, 255))
 text16 = my_font.render("16", True, (255, 255, 255))
-text_instructions = my_font2.render("instructions", True, (255, 255, 255))
+text_restart = my_font2.render("Restart", True, (255, 255, 255))
+text_lose = my_font3.render("YOU LOSE :(", True, (20, 118, 19))
+text_win= my_font3.render("YOU WIN!!!!!", True, (200, 118, 255))
 
 ##keeps track of when it is an even round 
 even = [0,2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40,42,44,46,48,50,52,54,56,58,60,62,64,66,68,70,72,74,76,78,80]
@@ -91,19 +93,34 @@ def update():
 def check_match():
         '''checks to see if a match has been made'''
         #time.sleep(5)
-        if box_choice1 == box_choice2:
-                print ("stop please")
-                update()
-        elif choice1 == choice2: ##if the two colors match
-                global matches
-                matches += 1
-                if matches == 8:
-                        print ("WINNNER")
-                else:
-                        print("match") ##keep the colors there and print 'match'
-        else:##if the two colors do not match
-                        print("no") ## print 'no'
+        global turns 
+        if turns >= 40:
+                print("LOSER")
+                lose()
+        else:
+                if box_choice1 == box_choice2:
+                        print ("stop please")
                         update()
+                elif choice1 == choice2: ##if the two colors match
+                        global matches
+                        matches += 1
+                        if matches == 8:
+                                print ("WINNNER")
+                                win()
+                        else:
+                                print("match") ##keep the colors there and print 'match'
+                else:##if the two colors do not match
+                                print("no") ## print 'no'
+                                update()
+
+def lose():
+         pygame.draw.rect(screen, (255,255,255), (65, 160, 300, 100))
+         screen.blit(text_lose, (65, 170))
+
+def win():
+        pygame.draw.rect(screen, (255,255,255), (65, 160, 300, 100))
+        screen.blit(text_win, (70, 170))
+
 
 def grid():
         '''creates a numbered grid of 16 rectangles''' 
@@ -123,7 +140,7 @@ def grid():
         pygame.draw.rect(screen, (255,255,255), BOX14, 1)
         pygame.draw.rect(screen, (255,255,255), BOX15, 1)
         pygame.draw.rect(screen, (255,255,255), BOX16, 1)
-        pygame.draw.rect(screen, (255,255,255), (30,425, 150,50), 1)
+        pygame.draw.rect(screen, (255,255,255), (125,425, 150,50), 1)
 
         pygame.display.flip() 
 
@@ -143,7 +160,7 @@ def grid():
         screen.blit(text14, (138, 339))
         screen.blit(text15, (241, 339))
         screen.blit(text16, (344, 339))
-        screen.blit(text_instructions, (50, 430))
+        screen.blit(text_restart, (160, 430))
         pygame.display.flip() 
 
 button1 = pygame.draw.rect(screen, (255,255,255), BOX1, 1)
@@ -162,7 +179,7 @@ button13 = pygame.draw.rect(screen, (255,255,255), BOX13, 1)
 button14 = pygame.draw.rect(screen, (255,255,255), BOX14, 1)
 button15 = pygame.draw.rect(screen, (255,255,255), BOX15, 1)
 button16 = pygame.draw.rect(screen, (255,255,255), BOX16, 1)
-#button_instructions = pygame.draw.rect()
+button_restart = pygame.draw.rect(screen, (255,255,255), (125, 425, 150, 50), 1)
 
 
 while running:
@@ -172,7 +189,18 @@ while running:
                 running = False
             if e.type == pygame.MOUSEBUTTONDOWN:
                 pos = pygame.mouse.get_pos()
-                if button1.collidepoint(pos):
+                if button_restart.collidepoint(pos):
+                        screen.fill((0,0,0))
+                        update1 = 0 
+                        update2 = 0
+                        turns = 0
+                        matches = 0
+                        choice1 = 1
+                        choice2 = 2
+                        random.shuffle(color_choices)
+                        grid()
+                        running = True
+                elif button1.collidepoint(pos):
                         pygame.draw.rect(screen, color_choices[0], BOX1)
                         turns +=1
                         if turns in even:
