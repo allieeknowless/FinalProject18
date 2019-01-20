@@ -75,7 +75,7 @@ text13 = my_font.render("13", True, (255, 255, 255))
 text14 = my_font.render("14", True, (255, 255, 255))
 text15 = my_font.render("15", True, (255, 255, 255))
 text16 = my_font.render("16", True, (255, 255, 255))
-text_restart = my_font2.render("Restart", True, (255, 255, 255))
+text_restart = my_font2.render("restart", True, (255, 255, 255))
 text_lose = my_font3.render("YOU LOSE :(", True, (20, 118, 19))
 text_win= my_font3.render("YOU WIN!!!!!", True, (200, 118, 255))
 
@@ -93,16 +93,23 @@ def update():
 def check_match():
         '''checks to see if a match has been made'''
         #time.sleep(5)
+        global matches
         global turns 
         if turns >= 40:
-                print("LOSER")
-                lose()
+                if choice1 == choice2: ##if the two colors match
+                        
+                        matches += 1
+                        if matches == 8:
+                                print ("WINNNER")
+                                win()
+                else:
+                        print("LOSER")
+                        lose()
         else:
                 if box_choice1 == box_choice2:
                         print ("stop please")
                         update()
                 elif choice1 == choice2: ##if the two colors match
-                        global matches
                         matches += 1
                         if matches == 8:
                                 print ("WINNNER")
