@@ -1,6 +1,6 @@
 import pygame ##import pygame module
-import time ##imports time module
-import random  ##imports random module
+import time ##imports time
+import random  ##imports random
 from random import shuffle ##Used to randomly shuffle the board each round
 
 update1 = 0 
@@ -18,7 +18,7 @@ matches = 0 ##keeps track of how many matches the player made
 
 my_font = pygame.font.SysFont("Arial", 48) #set the font for the title
 my_font2 = pygame.font.SysFont("Arial", 28) #sets font for the grid labels
-my_font3 = pygame.font.SysFont("Arial", 60) #sets font for the grid labels
+my_font3 = pygame.font.SysFont("Arial", 60) #sets a different size font
 
 #there are 16 boxes, so there are 8 colors and 2 of each
 color1 = (255, 0, 0)
@@ -76,8 +76,6 @@ text14 = my_font.render("14", True, (255, 255, 255))
 text15 = my_font.render("15", True, (255, 255, 255))
 text16 = my_font.render("16", True, (255, 255, 255))
 text_restart = my_font2.render("restart", True, (255, 255, 255))
-text_moves_left = my_font2.render("clicks left:  ", True, (255, 255, 255))
-text_moves_number = my_font2.render(f"{turns} ", True, (255, 255, 255))
 text_lose = my_font3.render("YOU LOSE :(", True, (20, 118, 19))
 text_win= my_font3.render("YOU WIN!!!!!", True, (200, 118, 255))
 
@@ -99,17 +97,19 @@ def check_match():
         global turns 
         if turns <= 0:
                 if choice1 == choice2: ##if the two colors match
-                        
                         matches += 1
                         if matches == 8:
                                 print ("WINNNER")
                                 win()
+                        else:
+                                print("LOSER")
+                                lose()      
                 else:
                         print("LOSER")
                         lose()
         else:
                 if box_choice1 == box_choice2:
-                        print ("stop please")
+                        print (f"Don't click on the same box twice, {turns} clicks left.")
                         update()
                 elif choice1 == choice2: ##if the two colors match
                         matches += 1
@@ -117,9 +117,9 @@ def check_match():
                                 print ("WINNNER")
                                 win()
                         else:
-                                print("match") ##keep the colors there and print 'match'
+                                print(f"match, {turns} clicks left") ##keep the colors there and print 'match'
                 else:##if the two colors do not match
-                                print("no") ## print 'no'
+                                print(f"no match, {turns} clicks left") ## print 'no'
                                 update()
 
 def lose():
@@ -149,10 +149,9 @@ def grid():
         pygame.draw.rect(screen, (255,255,255), BOX14, 1)
         pygame.draw.rect(screen, (255,255,255), BOX15, 1)
         pygame.draw.rect(screen, (255,255,255), BOX16, 1)
-        pygame.draw.rect(screen, (255,255,255), (40,425, 150,50), 1)
-        pygame.draw.rect(screen, (255,255,255), (225,425, 150,50), 1)
-
+        pygame.draw.rect(screen, (255,255,255), (140,425, 150,50), 1)
         pygame.display.flip() 
+
 
         screen.blit(text1, (45, 30))
         screen.blit(text2, (148, 30))
@@ -170,9 +169,7 @@ def grid():
         screen.blit(text14, (138, 339))
         screen.blit(text15, (241, 339))
         screen.blit(text16, (344, 339))
-        screen.blit(text_restart, (80, 430))
-        screen.blit(text_moves_left, (245, 430))
-        screen.blit(text_moves_number, (345, 430))
+        screen.blit(text_restart, (180, 430))
         pygame.display.flip() 
 
 button1 = pygame.draw.rect(screen, (255,255,255), BOX1, 1)
@@ -191,7 +188,7 @@ button13 = pygame.draw.rect(screen, (255,255,255), BOX13, 1)
 button14 = pygame.draw.rect(screen, (255,255,255), BOX14, 1)
 button15 = pygame.draw.rect(screen, (255,255,255), BOX15, 1)
 button16 = pygame.draw.rect(screen, (255,255,255), BOX16, 1)
-button_restart = pygame.draw.rect(screen, (255,255,255), (40, 425, 150, 50), 1)
+button_restart = pygame.draw.rect(screen, (255,255,255), (140, 425, 150, 50), 1)
 
 
      
