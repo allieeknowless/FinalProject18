@@ -82,7 +82,7 @@ text_win= my_font3.render("YOU WIN!!!!!", True, (200, 118, 255))
 ##keeps track of when it is an even round 
 even = [0,2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40]
 
-turns = 40 ##ypu get a total of 20 guesses, which is 40 clicks
+turns = 40 ##you get a total of 20 guesses, which is 40 clicks
 
 class round:
         """keeps track of matches"""
@@ -131,7 +131,6 @@ def check_match():
                                 print(f"match, {turns} clicks left") ##keep the colors there and print 'match'
                 else:##if the two colors do not match
                                 print(f"no match, {turns} clicks left") ## print 'no'
-                                print(round1.matches)
                                 update()
 
 def lose():
