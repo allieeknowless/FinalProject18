@@ -405,4 +405,4 @@ while running:
                                 box_choice1 = BOX16
                                 choice1 = color_choices[15]
                                 choice2 = 0
-        pygame.display.flip() ##display screen
+        pygame.display.flip() ##displays screen
